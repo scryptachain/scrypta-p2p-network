@@ -104,7 +104,14 @@ var decryptMessage = function(toDecrypt, keyPath) {
     const seq = connSeq
 
     const peerId = info.id.toString('hex')
-    console.log(`Connected #${seq} to peer: ${peerId}`)
+
+    if (!peers[peerId]) {
+      peers[peerId] = {}
+      console.log(`Connected #${seq} to peer: ${peerId}`)
+    }
+    peers[peerId].conn = conn
+    peers[peerId].seq = seq
+    connSeq++
 
     if (info.initiator) {
       try {
@@ -138,14 +145,6 @@ var decryptMessage = function(toDecrypt, keyPath) {
         delete peers[peerId]
       }
     })
-
-    // Save the connection
-    if (!peers[peerId]) {
-      peers[peerId] = {}
-    }
-    peers[peerId].conn = conn
-    peers[peerId].seq = seq
-    connSeq++
 
   })
   
