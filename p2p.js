@@ -38,7 +38,6 @@ const broadCast = async (message) => {
   }
 }
 
-
 //SWARM
 const NodeID = crypto.randomBytes(32)
 console.log('Your identity: ' + NodeID.toString('hex'))
@@ -55,7 +54,7 @@ const generateKeys = () => {
   const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', 
   {
           modulusLength: 4096,
-          namedCurve: 'secp256k1', 
+          namedCurve: 'secp256k1',
           publicKeyEncoding: {
               type: 'spki',
               format: 'pem'     
