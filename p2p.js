@@ -19,14 +19,24 @@ const askUser = async () => {
   })
 
   rl.question('Write a message to broadcast..\r\n', message => {
-    let encrypted = encryptMessage(message, "keys/public.pem")
-    sign.signWithKey(process.env.NODE_KEY, encrypted).then(signature => {
-      signature.message = encrypted
-      broadCast(JSON.stringify(signature))
-      rl.close()
-      rl = undefined
-      askUser()
-    })
+    if(process.env.ENCRYPT_COMMUNICATIONS === 'true'){
+      let encrypted = encryptMessage(message, "keys/public.pem")
+      sign.signWithKey(process.env.NODE_KEY, encrypted).then(signature => {
+        signature.message = encrypted
+        broadCast(JSON.stringify(signature))
+        rl.close()
+        rl = undefined
+        askUser()
+      })
+    }else{
+      sign.signWithKey(process.env.NODE_KEY, message).then(signature => {
+        signature.message = message
+        broadCast(JSON.stringify(signature))
+        rl.close()
+        rl = undefined
+        askUser()
+      })
+    }
   });
 }
 //COMMUNICATION FUNCTIONS
@@ -126,12 +136,13 @@ var decryptMessage = function(toDecrypt, keyPath) {
         var received = JSON.parse(data.toString())
         sign.verifySign(received.pubKey, received.signature, received.message).then(signature => {
           if(signature === true){
-            console.log('Received valid message from ' + received.pubKey + ': ' + received.message)
+            console.log(received)
+            console.log('Received valid message from ' + received.address + ': ' + received.message)
             try{
               var decrypted = decryptMessage(received.message, 'keys/private.pem')
               console.log("Successfully decrypted message: " + decrypted)
             }catch(e){
-              console.log('Can\'t decrypt the message.')
+              //console.log('Can\'t decrypt the message.')
             }
           }
         })
