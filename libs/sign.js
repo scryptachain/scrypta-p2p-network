@@ -39,6 +39,14 @@ module.exports = {
             response(pubKey)
         })
     },
+    returnAddress: async function(key){
+        return new Promise(response => {
+            //CREATING CK OBJECT
+            var ck = CoinKey.fromWif(key, lyraInfo);
+            //GETTING ADDRESS
+            response(ck.publicAddress)
+        })
+    },
     verifySign: async function(keyhex, sighex, message){
         return new Promise(response => {
             //CREATE HASH FROM MESSAGE
