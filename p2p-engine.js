@@ -42,12 +42,8 @@ async function initEngine (){
     var parsed = await utilities.parse(req)
     var body = parsed.body
     if(body.message !== undefined){
-      if(global['connected'].length > 0){
-        let broadcasted = await messages.broadcast(body.message)
-        res.send({success: true, broadcasted: broadcasted})
-      }else{
-        res.send({error: true, message: 'No connections.'})
-      }
+      let broadcasted = await messages.broadcast(body.message)
+      res.send({success: true, broadcasted: broadcasted})
     }else{
       res.send({error: true, message: 'Specify message first.'})
     }
