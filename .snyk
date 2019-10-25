@@ -57,3 +57,17 @@ patch:
         patched: '2019-10-25T10:24:30.839Z'
     - dns > tomahawk > socket.io > socket.io-client > engine.io-client > ws:
         patched: '2019-10-25T10:24:30.839Z'
+  'npm:qs:20140806':
+    - dns > tomahawk > body-parser > qs:
+        patched: '2019-10-25T10:32:30.314Z'
+    - dns > tomahawk > express > qs:
+        patched: '2019-10-25T10:32:30.314Z'
+    - dns > winston > request > qs:
+        patched: '2019-10-25T10:32:30.314Z'
+    - dns > tomahawk > winston > request > qs:
+        patched: '2019-10-25T10:32:30.314Z'
+  'npm:ws:20160104':
+    - dns > tomahawk > socket.io > engine.io > ws:
+        patched: '2019-10-25T10:32:30.314Z'
+    - dns > tomahawk > socket.io > socket.io-client > engine.io-client > ws:
+        patched: '2019-10-25T10:32:30.314Z'
