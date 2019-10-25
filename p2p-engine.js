@@ -79,7 +79,7 @@ async function initEngine (){
               //PROTOCOLS
               global['nodes'][bootstrap[k]].on('message', function (data) {
                   console.log('Received message from network.')
-                  request.post(hook, received, function (error, response, body) {
+                  request.post(hook, data, function (error, response, body) {
                     if(error){
                       console.log('Hook failed.')
                     }
