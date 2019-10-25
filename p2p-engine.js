@@ -42,7 +42,7 @@ async function initEngine (){
     var parsed = await utilities.parse(req)
     var body = parsed.body
     if(body.message !== undefined){
-      if(sw.connected > 0){
+      if(global['connected'].length > 0){
         let broadcasted = await messages.broadcast(body.message)
         res.send({success: true, broadcasted: broadcasted})
       }else{
