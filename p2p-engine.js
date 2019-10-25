@@ -98,7 +98,7 @@ async function initEngine (){
   console.log('Starting P2P server on port ' + p2pport)
   server.listen(p2pport);
   global['io'].server.on('connection', function (socket) {
-      utilities.log('New peer connected: ' + socket.id)
+      console.log('New peer connected: ' + socket.id)
       global['io'].sockets[socket.id] = socket
       //PROTOCOLS
       socket.on('message', function (data) {
