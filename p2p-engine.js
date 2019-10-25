@@ -42,7 +42,9 @@ async function initEngine (){
     var parsed = await utilities.parse(req)
     var body = parsed.body
     if(body.message !== undefined){
-      let broadcasted = await messages.broadcast('message', body.message)
+      let signed = await sign.signWithKey(process.env.NODE_KEY, body.message)
+      signed.message = body.message
+      let broadcasted = await messages.broadcast('message', signed)
       res.send({success: true, broadcasted: broadcasted})
     }else{
       res.send({error: true, message: 'Specify message first.'})
@@ -77,13 +79,16 @@ async function initEngine (){
               })
 
               //PROTOCOLS
-              global['nodes'][bootstrap[k]].on('message', function (data) {
-                  console.log('Received message from network.')
-                  request.post(hook, data, function (error, response, body) {
-                    if(error){
-                      console.log('Hook failed.')
-                    }
-                  })
+              global['nodes'][bootstrap[k]].on('message', async function (data) {
+                  let verified = await sign.verifySign(data.pubKey, data.signature, data.message)
+                  if(verified === true){
+                    console.log('Received message from ' + data.address + '.')
+                    request.post(hook, data, function (error, response, body) {
+                      if(error){
+                        console.log('Hook failed.')
+                      }
+                    })
+                  }
               })
           }
       }
