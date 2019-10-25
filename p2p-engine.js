@@ -63,13 +63,13 @@ async function initEngine (){
   for (var k in bootstrap) {
       if (!global['clients'][bootstrap[k]]) {
           //INIT CONNECTION
-          console.log('Bootstrap connection to ' + bootstrap[k])
           let lookupURL = bootstrap[k].replace('http://', '').replace(':' + process.env.PORT, '')
           let ip = await lookup(lookupURL)
           let publicip = await publicIp.v4()
           let node = bootstrap[k]
 
           if (ip !== publicip) {
+              console.log('Bootstrap connection to ' + bootstrap[k])
               global['nodes'][node] = require('socket.io-client')(node, { reconnect: true })
               global['nodes'][node].on('connect', function () {
                   console.log('Connected to peer: ' + global['nodes'][node].io.uri)
@@ -98,7 +98,7 @@ async function initEngine (){
   console.log('Starting P2P server on port ' + p2pport)
   server.listen(p2pport);
   global['io'].server.on('connection', function (socket) {
-      Utilities.log('New peer connected: ' + socket.id)
+      utilities.log('New peer connected: ' + socket.id)
       global['io'].sockets[socket.id] = socket
       //PROTOCOLS
       socket.on('message', function (data) {
