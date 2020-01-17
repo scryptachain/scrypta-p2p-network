@@ -63,7 +63,9 @@ async function initEngine (){
           //INIT CONNECTION
           let lookupURL = bootstrap[k].replace('http://', '').replace(':' + process.env.PORT, '')
           let ip = await lookup(lookupURL)
-          let publicip = await publicIp.v4()
+          let publicip = await publicIp.v4().catch(err => {
+            console.log('Public IP not available')
+          })
           let node = bootstrap[k]
 
           if (ip !== publicip) {
