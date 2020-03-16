@@ -21,7 +21,7 @@
     "formidable": "^1.2.1",
     "get-port": "^5.1.1",
     "is-port-available": "^0.1.5",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "portfinder": "^1.0.25",
     "public-ip": "^4.0.0",
     "request": "^2.88.0",
